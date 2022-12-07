@@ -1,0 +1,20 @@
+version: "2.1"
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PGID=129
+      - PUID=1000
+      - PLEX_UID=1000
+      - PLEX_GID=129
+      - PLEX_CLAIM="claim-uUzx2rMAT5tzVzMfbshT"
+      - TZ=America/Vancouver
+    volumes:
+      - /gmedia:/data/media
+      - /cache/plex/transcodes:/transcode
+      - /home/thor/.config/plex:/config
+    restart: unless-stopped
+    devices:
+      - '/dev/dri:/dev/dri'
