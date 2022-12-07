@@ -51,7 +51,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - /home/thor/.config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - /home/thor/.config/elasticsearch:/usr/share/elasticsearch/config
       - /home/thor/.config/elasticsearch/data:/usr/share/elasticsearch/data
     ports: 
       - '9200:9200'
