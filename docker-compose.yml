@@ -5,6 +5,7 @@ services:
     container_name: plex
     network_mode: host
     environment:
+      - VERSION=docker
       - PGID=129
       - PUID=1000
       - PLEX_UID=1000
