@@ -31,3 +31,27 @@ services:
     ports:
         - '3100:3100'
     image: grafana/loki
+  
+  elasticsearch:
+    container_name: elasticsearch
+    hostname: elasticsearch
+    image: "docker.elastic.co/elasticsearch/elasticsearch:latest"
+    logging:
+      options:
+        max-file: "3"
+        max-size: "50m"
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms${ES_JVM_HEAP} -Xmx${ES_JVM_HEAP}"
+    mem_limit: 1g
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /home/thor/.config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - /home/thor/.config/elasticsearch/data:/usr/share/elasticsearch/data
+    ports: 
+      - '9200:9200'
