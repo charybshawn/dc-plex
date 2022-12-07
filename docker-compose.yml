@@ -35,7 +35,7 @@ services:
   elasticsearch:
     container_name: elasticsearch
     hostname: elasticsearch
-    image: elasticsearch/elasticsearch:latest
+    image: "docker.elastic.co/elasticsearch/elasticsearch:latest"
     logging:
       options:
         max-file: "3"
