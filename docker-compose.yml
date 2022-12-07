@@ -19,3 +19,9 @@ services:
     restart: unless-stopped
     devices:
       - '/dev/dri:/dev/dri'
+
+  grafana:
+    container_name: grafana
+    ports:
+        - '3000:3000'
+    image: grafana/grafana
