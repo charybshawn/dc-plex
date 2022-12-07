@@ -9,7 +9,7 @@ services:
       - PUID=1000
       - PLEX_UID=1000
       - PLEX_GID=129
-      - PLEX_CLAIM="claim-uUzx2rMAT5tzVzMfbshT"
+      - PLEX_CLAIM="claim-Ei2rVbLtux__fcaugf2j"
       - TZ=America/Vancouver
     volumes:
       - /gmedia:/data/media
