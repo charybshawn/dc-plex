@@ -5,7 +5,7 @@ services:
     container_name: plex
     network_mode: host
     environment:
-      - VERSION=docker
+      - VERSION=latest
       - PGID=129
       - PUID=1000
       - PLEX_UID=1000
@@ -16,12 +16,14 @@ services:
       - /gmedia:/data/media
       - /cache/plex/transcodes:/transcode
       - /home/thor/.config/plex:/config
-    restart: unless-stopped
+    restart: always
     devices:
       - '/dev/dri:/dev/dri'
 
   grafana:
     container_name: grafana
+    volumes:
+      - /home/thor/.config/grafana:/var/lib/grafana
     logging:
       driver: loki
       options:
