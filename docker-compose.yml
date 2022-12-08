@@ -20,6 +20,19 @@ services:
     devices:
       - '/dev/dri:/dev/dri'
 
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    environment:
+      - PUID=1000
+      - PGID=129
+      - TZ=America/Vancouver
+    volumes:
+      - /home/thor/.config/tatulli:/config
+    ports:
+      - 8181:8181
+    restart: always
+
   grafana:
     container_name: grafana
     volumes:
