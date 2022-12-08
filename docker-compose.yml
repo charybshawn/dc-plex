@@ -15,8 +15,8 @@ services:
     volumes:
       - /gmedia:/data/media
       - /cache/plex/transcodes:/transcode
-      - /home/thor/.config/plex:/config
-    restart: unless-stopped
+      - /mnt/plex-meta:/config
+    restart: always
     devices:
       - '/dev/dri:/dev/dri'
 
