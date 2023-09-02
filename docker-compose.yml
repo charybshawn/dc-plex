@@ -1,24 +1,87 @@
 version: "2.1"
 services:
-  plex:
-    image: lscr.io/linuxserver/plex:latest
-    container_name: plex
-    network_mode: host
+
+  nzbget:
+    container_name: nzbget
+    image: cr.hotio.dev/hotio/nzbget:testing
+    ports:
+      - "6789:6789"
     environment:
-      - VERSION=latest
-      - PGID=129
       - PUID=1000
-      - PLEX_UID=1000
-      - PLEX_GID=129
-      - PLEX_CLAIM="claim-Ei2rVbLtux__fcaugf2j"
+      - PGID=129
+      - UMASK=002
       - TZ=America/Vancouver
     volumes:
+      - /home/thor/.config/nzbget:/config
+      - /downloads:/data/downloads
+    restart: unless-stopped
+
+  bazarr:
+    container_name: bazarr
+    image: cr.hotio.dev/hotio/bazarr:nightly
+    ports:
+      - "6767:6767"
+    environment:
+      - PUID=1000
+      - PGID=129
+      - UMASK=002
+      - TZ=America/Vancouver
+    volumes:
+      - /home/thor/.config/bazarr:/config
       - /gmedia:/data/media
-      - /cache/plex/transcodes:/transcode
-      - /mnt/plex-meta:/config
-    restart: always
-    devices:
-      - '/dev/dri:/dev/dri'
+    restart: unless-stopped
+
+  sonarr:
+    container_name: sonarr
+    image: cr.hotio.dev/hotio/sonarr:v4
+    ports:
+      - "8989:8989"
+    environment:
+      - PUID=1000
+      - PGID=129
+      - UMASK=002
+      - TZ=America/Vancouver
+    volumes:
+      - /home/thor/.config/sonarr:/config
+      - /downloads:/data/downloads
+      - /gmedia:/data/media
+    restart: unless-stopped
+
+  radarr:
+    container_name: radarr
+    image: cr.hotio.dev/hotio/radarr:nightly
+    ports:
+      - "7878:7878"
+    environment:
+      - PUID=1000
+      - PGID=129
+      - UMASK=002
+      - TZ=America/Vancouver
+    volumes:
+      - /home/thor/.config/radarr:/config
+      - /gmedia:/data/media
+      - /downloads:/data/downloads
+    restart: unless-stopped
+
+  # plex:
+  #   image: lscr.io/linuxserver/plex:latest
+  #   container_name: plex
+  #   network_mode: host
+  #   environment:
+  #     - VERSION=latest
+  #     - PGID=129
+  #     - PUID=1000
+  #     - PLEX_UID=1000
+  #     - PLEX_GID=129
+  #     - PLEX_CLAIM="claim-Ei2rVbLtux__fcaugf2j"
+  #     - TZ=America/Vancouver
+  #   volumes:
+  #     - /gmedia:/data/media
+  #     - /cache/plex/transcodes:/transcode
+  #     - /mnt/plex-meta:/config
+  #   restart: always
+  #   devices:
+  #     - '/dev/dri:/dev/dri'
 
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
@@ -31,31 +94,34 @@ services:
       - /home/thor/.config/tatulli:/config
     ports:
       - 8181:8181
-    restart: always
+    restart: unless-stopped
 
-  grafana:
-    container_name: grafana
-    volumes:
-      - /home/thor/.config/grafana:/var/lib/grafana
-    logging:
-      driver: loki
-      options:
-          loki-url: http://192.168.1.172:3100/loki/api/v1/push
-    ports:
-        - '3000:3000'
-    image: grafana/grafana
+  # grafana:
+  #   container_name: grafana
+  #   volumes:
+  #     - /home/thor/.config/grafana:/var/lib/grafana
+  #   logging:
+  #     driver: loki
+  #     options:
+  #         loki-url: http://192.168.1.172:3100/loki/api/v1/push
+  #   ports:
+  #       - '3000:3000'
+  #   image: grafana/grafana
+  #   depends_on: 
+  #     - loki
+  #     - promtail
     
-  loki:
-    container_name: loki
-    ports:
-        - '3100:3100'
-    image: grafana/loki
+  # loki:
+  #   container_name: loki
+  #   ports:
+  #       - '3100:3100'
+  #   image: grafana/loki
 
-  promtail:
-    image: grafana/promtail:2.6.1
-    volumes:
-      - /var/log:/var/log
-    command: -config.file=/etc/promtail/config.yml
+  # promtail:
+  #   image: grafana/promtail:2.6.1
+  #   volumes:
+  #     - /var/log:/var/log
+  #   command: -config.file=/etc/promtail/config.yml
 
   
   # elasticsearch:
