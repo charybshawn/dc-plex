@@ -8,9 +8,9 @@ services:
       - "5055:5055"
     environment:
       - PUID=1000
-      - PGID=1000
+      - PGID=129
       - UMASK=002
-      - TZ=Etc/UTC
+      - TZ=America/Vancouver
     volumes:
       - /home/thor/.config/overseerr:/config
       - /gmedia:/data/media
