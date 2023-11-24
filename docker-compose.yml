@@ -55,7 +55,7 @@ services:
       - TZ=America/Vancouver
     volumes:
       - /home/thor/.config/bazarr:/config
-      - /gmedia:/data/media
+      - /data:/data
     restart: unless-stopped
 
   sonarr:
@@ -70,8 +70,7 @@ services:
       - TZ=America/Vancouver
     volumes:
       - /home/thor/.config/sonarr:/config
-      - /downloads:/data/downloads
-      - /gmedia:/data/media
+      - /data:/data
     restart: unless-stopped
 
   radarr:
@@ -86,8 +85,7 @@ services:
       - TZ=America/Vancouver
     volumes:
       - /home/thor/.config/radarr:/config
-      - /gmedia:/data/media
-      - /downloads:/data/downloads
+      - /data:/data
     restart: unless-stopped
 
   # plex:
