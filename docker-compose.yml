@@ -1,5 +1,18 @@
-version: "2.1"
+version: "3.7"
 services:
+
+  prowlarr:
+    container_name: prowlarr
+    image: ghcr.io/hotio/prowlarr
+    ports:
+      - "9696:9696"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Etc/UTC
+    volumes:
+      - /home/thor/.config/prowlarr>:/config
 
   overseerr:
     container_name: overseerr
@@ -8,7 +21,7 @@ services:
       - "5055:5055"
     environment:
       - PUID=1000
-      - PGID=129
+      - PGID=1000
       - UMASK=002
       - TZ=America/Vancouver
     volumes:
@@ -22,7 +35,7 @@ services:
       - "6789:8080"
     environment:
       - PUID=1000
-      - PGID=129
+      - PGID=1000
       - UMASK=002
       - TZ=America/Vancouver
     volumes:
@@ -37,7 +50,7 @@ services:
       - "6767:6767"
     environment:
       - PUID=1000
-      - PGID=129
+      - PGID=1000
       - UMASK=002
       - TZ=America/Vancouver
     volumes:
@@ -52,7 +65,7 @@ services:
       - "8989:8989"
     environment:
       - PUID=1000
-      - PGID=129
+      - PGID=1000
       - UMASK=002
       - TZ=America/Vancouver
     volumes:
@@ -68,7 +81,7 @@ services:
       - "7878:7878"
     environment:
       - PUID=1000
-      - PGID=129
+      - PGID=1000
       - UMASK=002
       - TZ=America/Vancouver
     volumes:
@@ -83,10 +96,10 @@ services:
   #   network_mode: host
   #   environment:
   #     - VERSION=latest
-  #     - PGID=129
+  #     - PGID=1000
   #     - PUID=1000
   #     - PLEX_UID=1000
-  #     - PLEX_GID=129
+  #     - PLEX_GID=1000
   #     - PLEX_CLAIM="claim-Ei2rVbLtux__fcaugf2j"
   #     - TZ=America/Vancouver
   #   volumes:
@@ -102,7 +115,7 @@ services:
       container_name: tautulli
       environment:
         - PUID=1000
-        - PGID=129
+        - PGID=1000
         - TZ=America/Vancouver
       volumes:
         - /home/thor/.config/tatulli:/config
@@ -110,54 +123,4 @@ services:
         - 8181:8181
       restart: unless-stopped
 
-  # grafana:
-  #   container_name: grafana
-  #   volumes:
-  #     - /home/thor/.config/grafana:/var/lib/grafana
-  #   logging:
-  #     driver: loki
-  #     options:
-  #         loki-url: http://192.168.1.172:3100/loki/api/v1/push
-  #   ports:
-  #       - '3000:3000'
-  #   image: grafana/grafana
-  #   depends_on: 
-  #     - loki
-  #     - promtail
-    
-  # loki:
-  #   container_name: loki
-  #   ports:
-  #       - '3100:3100'
-  #   image: grafana/loki
-
-  # promtail:
-  #   image: grafana/promtail:2.6.1
-  #   volumes:
-  #     - /var/log:/var/log
-  #   command: -config.file=/etc/promtail/config.yml
-
   
-  # elasticsearch:
-  #   container_name: elasticsearch
-  #   hostname: elasticsearch
-  #   image: "docker.elastic.co/elasticsearch/elasticsearch:8.5.2"
-  #   logging:
-  #     options:
-  #       max-file: "3"
-  #       max-size: "50m"
-  #   environment:
-  #     - http.host=0.0.0.0
-  #     - transport.host=127.0.0.1
-  #     - bootstrap.memory_lock=true
-  #     - "ES_JAVA_OPTS=-Xms${ES_JVM_HEAP} -Xmx${ES_JVM_HEAP}"
-  #   mem_limit: 1g
-  #   ulimits:
-  #     memlock:
-  #       soft: -1
-  #       hard: -1
-  #   volumes:
-  #     - /home/thor/.config/elasticsearch:/usr/share/elasticsearch/config
-  #     - /home/thor/.config/elasticsearch/data:/usr/share/elasticsearch/data
-  #   ports: 
-  #     - '9200:9200'
