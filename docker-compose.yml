@@ -41,6 +41,7 @@ services:
     volumes:
       - /home/thor/.config/sabnzbd:/config
       - /data:/data
+      - /tmp/downloads/incomplete:/data/downloads/incomplete
     restart: unless-stopped
 
   bazarr:
