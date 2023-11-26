@@ -30,7 +30,7 @@ services:
 
   sabnzbd:
     container_name: sabnzbd
-    image: ghcr.io/hotio/sabnzbd:testing
+    image: ghcr.io/hotio/sabnzbd
     ports:
       - "6789:8080"
     environment:
